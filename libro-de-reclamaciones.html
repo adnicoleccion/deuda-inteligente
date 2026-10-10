@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Libro de Reclamaciones | Deuda Inteligente</title>
+<meta name="description" content="Libro de Reclamaciones virtual de Deuda Inteligente.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B7A55'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'%3EDI%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Deuda Inteligente
+   Design read: landing trust-first de finanzas personales para usuarios peruanos en celular.
+   Dials: VARIANCE 5 / MOTION 3 / DENSITY 4.
+   Radios: tarjetas 16px, botones e inputs 12px, chips pill. */
+
+:root{
+  --bg:#F4F6F9;
+  --surface:#FCFDFE;
+  --surface-2:#EAEFF5;
+  --ink:#0E1A2B;
+  --muted:#4A5568;
+  --line:rgba(14,26,43,.12);
+  --accent:#0B7A55;
+  --accent-ink:#FFFFFF;
+  --accent-soft:rgba(11,122,85,.10);
+  --ok:#1E9E62; --warn:#D99A00; --bad:#D14343;
+  --shadow:0 1px 2px rgba(14,26,43,.06), 0 12px 32px -12px rgba(14,26,43,.18);
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --r-card:16px; --r-ctl:12px;
+  --font:"Geist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"Geist Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0B1220; --surface:#111A2B; --surface-2:#18233A;
+    --ink:#E8EDF4; --muted:#A3B0C2; --line:rgba(232,237,244,.12);
+    --accent:#3CCB94; --accent-ink:#06261A; --accent-soft:rgba(60,203,148,.12);
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 16px 40px -16px rgba(0,0,0,.6);
+  }
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{line-height:1.12;letter-spacing:-0.02em;margin:0;font-weight:700}
+h1{font-size:clamp(2rem,4.6vw,3.1rem)}
+h2{font-size:clamp(1.6rem,3.6vw,2.4rem)}
+h3{font-size:1.15rem;letter-spacing:-0.01em}
+p{margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.muted{color:var(--muted)}
+.mono{font-family:var(--mono)}
+section{padding:88px 0}
+@media (max-width:767px){section{padding:64px 0}}
+.sec-title{max-width:640px;margin-bottom:40px}
+.sec-title p{margin-top:12px;color:var(--muted);max-width:60ch}
+.eyebrow{display:inline-block;font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:var(--r-ctl);font:600 16px/1 var(--font);text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap;
+  transition:transform 160ms var(--ease-out), background-color 160ms ease, border-color 160ms ease}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-block{width:100%}
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{background:color-mix(in srgb, var(--accent) 88%, black)}
+  .btn-ghost:hover{border-color:var(--ink)}
+}
+.btn:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 55%, transparent);outline-offset:2px}
+.btn i{font-size:20px}
+
+/* Nav */
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%, transparent);backdrop-filter:saturate(160%) blur(10px);-webkit-backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;letter-spacing:-0.01em}
+.brand-mark{width:30px;height:30px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:700 13px/1 var(--mono)}
+.nav .btn{min-height:40px;padding:0 16px;font-size:15px}
+@media (max-width:400px){.nav .btn{padding:0 12px;font-size:14px}.brand{font-size:15px}}
+
+/* Hero */
+.hero{padding:64px 0 88px}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:center}
+.hero-sub{font-size:1.15rem;color:var(--muted);margin:20px 0 32px;max-width:34ch}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+@media (max-width:899px){.hero-grid{grid-template-columns:1fr;gap:44px}.hero{padding:40px 0 64px}}
+
+/* Vista previa de entrega (componente real, contenido de ejemplo) */
+.preview{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);padding:20px;max-width:440px;justify-self:end;width:100%}
+@media (max-width:899px){.preview{justify-self:stretch;max-width:none}}
+.preview-head{display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:20px}
+.preview-head small{display:block;color:var(--muted);font-size:13px;line-height:1.3}
+.tag{margin-left:auto;font:500 12px/1 var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 10px}
+.bubble{background:var(--surface-2);border-radius:14px 14px 14px 4px;padding:14px 16px;font-size:15px;line-height:1.5}
+.bubble + .bubble{margin-top:10px}
+.file{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px}
+.file i{font-size:26px;color:var(--accent)}
+.file b{display:block;font-size:14px}
+.file span{font-size:12px;color:var(--muted)}
+.facts{display:grid;gap:8px;margin-top:12px}
+.fact{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.fact b{font-weight:600}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.dot.ok{background:var(--ok)}
+.time{display:block;text-align:right;font:12px/1 var(--mono);color:var(--muted);margin-top:8px}
+
+/* Dolor */
+.pains{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden}
+.pain{background:var(--surface);padding:28px;display:flex;gap:16px}
+.pain i{font-size:28px;color:var(--accent);flex-shrink:0;margin-top:2px}
+.pain p{color:var(--muted);margin-top:6px;font-size:16px}
+@media (max-width:767px){.pains{grid-template-columns:1fr}}
+
+/* Qué recibes: bento 2 celdas */
+.bento{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}
+.cell{border-radius:var(--r-card);padding:32px;border:1px solid var(--line);background:var(--surface)}
+.cell-accent{background:linear-gradient(160deg, var(--accent-soft), transparent 60%), var(--surface)}
+.cell h3{font-size:1.4rem;margin:14px 0 10px}
+.cell > p{color:var(--muted)}
+.checks{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:12px}
+.checks li{display:flex;gap:12px;font-size:16px}
+.checks i{color:var(--accent);font-size:22px;flex-shrink:0}
+.chip{display:inline-flex;align-items:center;gap:8px;font:500 13px/1 var(--mono);background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:8px 12px}
+.cover{margin-top:24px;aspect-ratio:3/4;max-width:210px;border-radius:10px;background:var(--ink);color:var(--bg);padding:22px 18px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow)}
+.cover small{font:12px/1.3 var(--mono);opacity:.7}
+.cover strong{font-size:1.45rem;line-height:1.1;letter-spacing:-0.02em}
+.cover img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+@media (max-width:899px){.bento{grid-template-columns:1fr}}
+
+/* Pasos */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;counter-reset:s;position:relative}
+.step{padding:0 24px 0 0}
+.step-icon{width:52px;height:52px;border-radius:14px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-size:24px;color:var(--accent);margin-bottom:18px}
+.step p{color:var(--muted);margin-top:8px;font-size:16px}
+@media (max-width:767px){.steps{grid-template-columns:1fr;gap:28px}.step{display:grid;grid-template-columns:52px 1fr;gap:16px;padding:0}.step-icon{margin:0}}
+
+/* Pago */
+.pay{display:grid;grid-template-columns:.9fr 1.1fr;gap:24px;align-items:start}
+@media (max-width:899px){.pay{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:28px;box-shadow:var(--shadow)}
+.price{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.price strong{font-size:2.6rem;letter-spacing:-0.03em}
+.qr{width:200px;height:200px;margin:22px auto 12px;border-radius:14px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;overflow:hidden}
+.qr img{width:100%;height:100%;object-fit:contain}
+.qr-missing{padding:18px;text-align:center;font:13px/1.45 var(--mono);color:#4A5568}
+.qr-actions{display:flex;justify-content:center;margin-bottom:22px}
+.link-btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:var(--accent);text-decoration:none;padding:8px 4px}
+.number{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px dashed var(--line);border-radius:var(--r-ctl);padding:14px 16px;background:var(--bg)}
+.number small{display:block;color:var(--muted);font-size:13px}
+.number b{font:600 1.35rem/1.2 var(--mono);letter-spacing:.02em}
+.copy-btn{min-height:44px;padding:0 16px;font-size:15px}
+.titular{font-size:14px;color:var(--muted);margin-top:10px}
+.pay-note{margin-top:18px;font-size:14px;color:var(--muted);display:flex;gap:10px}
+.pay-note i{font-size:20px;color:var(--accent);flex-shrink:0}
+
+/* Formularios */
+.form{display:grid;gap:18px}
+.field{display:grid;gap:8px}
+.field label,.legend{font-weight:600;font-size:15px}
+.field .help{font-size:13px;color:var(--muted)}
+.field .err{font-size:13px;color:var(--bad);display:none}
+.field.invalid .err{display:block}
+.field.invalid input,.field.invalid textarea,.field.invalid select{border-color:var(--bad)}
+input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],textarea,select{
+  width:100%;min-height:50px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:var(--r-ctl);padding:12px 14px;font:16px/1.4 var(--font);
+  transition:border-color 160ms ease}
+textarea{min-height:120px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);outline:none}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.row-2{grid-template-columns:1fr}}
+.consent{display:flex;gap:12px;align-items:flex-start;background:var(--accent-soft);border-radius:var(--r-ctl);padding:14px 16px;font-size:14px;line-height:1.5;cursor:pointer}
+.consent input{width:20px;height:20px;margin-top:1px;accent-color:var(--accent);flex-shrink:0}
+.consent.invalid{outline:2px solid var(--bad)}
+.form-msg{font-size:14px;color:var(--bad);min-height:1px}
+.radios{display:flex;gap:10px;flex-wrap:wrap}
+.radio{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:var(--r-ctl);padding:12px 14px;cursor:pointer;font-size:15px;background:var(--bg)}
+.radio input{accent-color:var(--accent);width:18px;height:18px}
+.radio:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.hp{display:none}
+
+/* Garantía */
+.guarantee{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:32px}
+.guarantee > i{font-size:44px;color:var(--accent)}
+.guarantee p{color:var(--muted);margin-top:8px}
+@media (max-width:560px){.guarantee{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{max-width:760px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-weight:600;font-size:1.05rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{transition:transform 200ms var(--ease-out);color:var(--accent);flex-shrink:0;margin-top:3px}
+.faq details[open] summary i{transform:rotate(45deg)}
+.faq details p{color:var(--muted);padding:0 0 20px;max-width:65ch}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:48px 0 120px;font-size:14px;color:var(--muted)}
+.foot{display:grid;grid-template-columns:1.2fr 1fr auto;gap:32px;align-items:start}
+.foot b{color:var(--ink)}
+.foot a{text-decoration:none}
+.lr-link{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:var(--r-ctl);padding:12px 16px;color:var(--ink);font-weight:600;background:var(--surface)}
+.lr-link i{font-size:24px;color:var(--accent)}
+.legal{margin-top:28px;font-size:13px;line-height:1.6;max-width:90ch}
+@media (max-width:767px){.foot{grid-template-columns:1fr}}
+
+/* Barra fija móvil */
+.sticky-cta{position:fixed;left:12px;right:12px;bottom:12px;z-index:30;display:none;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:10px 10px 10px 16px;box-shadow:var(--shadow);
+  transform:translateY(140%);transition:transform 240ms var(--ease-out)}
+.sticky-cta.show{transform:translateY(0)}
+.sticky-cta b{font-size:1.1rem}
+.sticky-cta small{display:block;color:var(--muted);font-size:12px;line-height:1.2}
+.sticky-cta .btn{min-height:46px}
+@media (max-width:767px){.sticky-cta{display:flex}}
+
+/* Toast */
+.toast{position:fixed;left:50%;top:20px;z-index:40;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:999px;font-size:15px;font-weight:500;
+  opacity:0;transform:translate(-50%,-8px) scale(.97);pointer-events:none;transition:opacity 180ms ease, transform 220ms var(--ease-out)}
+.toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+
+/* Aparición al hacer scroll (solo con JS y sin reduced-motion) */
+@media (prefers-reduced-motion: no-preference){
+  .js .reveal{opacity:0;transform:translateY(12px);transition:opacity 500ms var(--ease-out), transform 500ms var(--ease-out)}
+  .js .reveal.in{opacity:1;transform:none}
+}
+
+/* Libro de reclamaciones */
+.lr-head{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;margin-bottom:28px}
+.lr-meta{font:13px/1.6 var(--mono);color:var(--muted);text-align:right}
+@media (max-width:767px){.lr-head{grid-template-columns:1fr}.lr-meta{text-align:left}}
+.provider{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;background:var(--surface-2);border-radius:var(--r-ctl);padding:16px;font-size:14px}
+.provider small{display:block;color:var(--muted);font-size:12px}
+@media (max-width:767px){.provider{grid-template-columns:1fr}}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:16px}
+fieldset legend{font-weight:700;font-size:1.05rem;margin-bottom:6px;padding:0}
+.note{font-size:13px;color:var(--muted);line-height:1.55}
+.constancia{display:none}
+.constancia.show{display:block}
+.constancia dl{display:grid;grid-template-columns:180px 1fr;gap:8px 16px;font-size:15px;margin:20px 0}
+.constancia dt{color:var(--muted)}
+.constancia dd{margin:0;white-space:pre-wrap;word-break:break-word}
+@media (max-width:560px){.constancia dl{grid-template-columns:1fr}.constancia dd{margin-bottom:8px}}
+@media print{
+  .nav,footer,.no-print,.sticky-cta{display:none!important}
+  body{background:#fff;color:#000}
+  .card{box-shadow:none;border:1px solid #ccc}
+}
+
+</style>
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1" defer></script>
+<style>
+/* Colores a juego con la landing v3 */
+:root{--accent:#0284C7;--accent-ink:#fff;--accent-soft:rgba(2,132,199,.08);--bg:#F8FAFC;--surface:#FFFFFF;--surface-2:#F1F5F9;--ink:#0F172A;--muted:#64748B;--line:#E2E8F0}
+@media (prefers-color-scheme:dark){:root{--accent:#38BDF8;--accent-ink:#04121C;--accent-soft:rgba(56,189,248,.1)}}
+h1,h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;letter-spacing:-.03em}
+.brand-mark{background:linear-gradient(135deg,#0284C7,#0EA5A4);color:#fff}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Principal">
+  <div class="wrap">
+    <a href="index.html" class="brand"><span class="brand-mark">DI</span>Deuda Inteligente</a>
+    <a href="index.html" class="btn btn-ghost">Volver</a>
+  </div>
+</nav>
+
+<main>
+<section style="padding-top:48px">
+  <div class="wrap" style="max-width:860px">
+
+    <!-- FORMULARIO -->
+    <div class="card" id="lrCard">
+      <div class="lr-head">
+        <div>
+          <h1 style="font-size:clamp(1.8rem,4vw,2.4rem)">Libro de Reclamaciones</h1>
+          <p class="muted" style="margin-top:8px">Hoja de Reclamación virtual conforme al Código de Protección y Defensa del Consumidor.</p>
+        </div>
+        <div class="lr-meta">Fecha: <span id="lrFecha">-</span></div>
+      </div>
+
+      <div class="provider" style="margin-bottom:28px">
+        <div><small>Proveedor</small><span data-c="razonSocial">Nicolas Fernando Aguilar Escalante</span></div>
+        <div><small>RUC</small><span data-c="ruc">10471992491</span></div>
+        <div><small>Domicilio</small><span data-c="direccion">Calle Batalla de San Juan 794, Urb. Chacarilla del Estanque, Santiago de Surco, Lima</span></div>
+      </div>
+
+      <form class="form" id="lrForm" name="libro-reclamaciones" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate style="gap:32px">
+        <input type="hidden" name="form-name" value="libro-reclamaciones">
+        <input type="hidden" name="codigo" id="lrCodigo">
+        <input type="hidden" name="fecha" id="lrFechaInput">
+        <p class="hp"><label>No llenar: <input name="bot-field"></label></p>
+
+        <fieldset>
+          <legend>1. Identificación del consumidor</legend>
+          <div class="row-2">
+            <div class="field"><label for="lNombres">Nombres</label><input type="text" id="lNombres" name="nombres" autocomplete="given-name" required><span class="err">Campo obligatorio.</span></div>
+            <div class="field"><label for="lApellidos">Apellidos</label><input type="text" id="lApellidos" name="apellidos" autocomplete="family-name" required><span class="err">Campo obligatorio.</span></div>
+          </div>
+          <div class="row-2">
+            <div class="field"><label for="lTipoDoc">Tipo de documento</label>
+              <select id="lTipoDoc" name="tipo_documento"><option>DNI</option><option>Carné de extranjería</option><option>Pasaporte</option></select></div>
+            <div class="field"><label for="lDoc">Número de documento</label><input type="text" id="lDoc" name="numero_documento" inputmode="numeric" required><span class="err">Campo obligatorio.</span></div>
+          </div>
+          <div class="field"><label for="lDomicilio">Domicilio</label><input type="text" id="lDomicilio" name="domicilio" autocomplete="street-address" required><span class="err">Campo obligatorio.</span></div>
+          <div class="row-2">
+            <div class="field"><label for="lTelefono">Teléfono</label><input type="tel" id="lTelefono" name="telefono" inputmode="tel" autocomplete="tel" required><span class="err">Campo obligatorio.</span></div>
+            <div class="field"><label for="lEmail">Correo electrónico</label><input type="email" id="lEmail" name="email" autocomplete="email" required><span class="help">Aquí te enviaremos la respuesta.</span><span class="err">Escribe un correo válido.</span></div>
+          </div>
+          <label class="consent" style="background:var(--surface-2)"><input type="checkbox" id="lMenor" name="es_menor_de_edad" value="Sí"><span>Soy menor de edad</span></label>
+          <div class="field" id="lPadreWrap" hidden><label for="lPadre">Nombre del padre, madre o apoderado</label><input type="text" id="lPadre" name="padre_madre_apoderado"><span class="err">Campo obligatorio para menores de edad.</span></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. Identificación del bien contratado</legend>
+          <div class="field">
+            <span class="legend">Tipo</span>
+            <div class="radios">
+              <label class="radio"><input type="radio" name="tipo_bien" value="Servicio" checked>Servicio</label>
+              <label class="radio"><input type="radio" name="tipo_bien" value="Producto">Producto</label>
+            </div>
+          </div>
+          <div class="row-2">
+            <div class="field"><label for="lMonto">Monto reclamado (S/)</label><input type="text" id="lMonto" name="monto_reclamado" inputmode="decimal" placeholder="14.30"></div>
+            <div class="field"><label for="lDescBien">Descripción</label><input type="text" id="lDescBien" name="descripcion_bien" value="Reporte Sentinel + guía PDF Cómo dominar tu deuda"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. Detalle de la reclamación y pedido del consumidor</legend>
+          <div class="field">
+            <span class="legend">Tipo</span>
+            <div class="radios">
+              <label class="radio"><input type="radio" name="tipo_reclamo" value="Reclamo" checked><span><b>Reclamo</b>: disconformidad con el producto o servicio</span></label>
+              <label class="radio"><input type="radio" name="tipo_reclamo" value="Queja"><span><b>Queja</b>: malestar con la atención, no con el producto</span></label>
+            </div>
+          </div>
+          <div class="field"><label for="lDetalle">Detalle</label><textarea id="lDetalle" name="detalle" required></textarea><span class="err">Cuéntanos qué pasó.</span></div>
+          <div class="field"><label for="lPedido">Pedido</label><textarea id="lPedido" name="pedido" required placeholder="¿Qué solución esperas?"></textarea><span class="err">Cuéntanos qué solución esperas.</span></div>
+        </fieldset>
+
+        <div>
+          <p class="note">La formulación del reclamo no impide acudir a otras vías de solución de controversias ni es requisito previo para interponer una denuncia ante el INDECOPI. El proveedor deberá dar respuesta al reclamo o queja en un plazo no mayor a quince (15) días hábiles improrrogables.</p>
+          <p class="form-msg" id="lrMsg" role="alert" style="margin-top:14px"></p>
+          <button type="submit" class="btn btn-primary btn-block" id="lrSubmit" style="margin-top:8px">Enviar hoja de reclamación</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- CONSTANCIA -->
+    <div class="card constancia" id="constancia" tabindex="-1">
+      <div class="lr-head" style="margin-bottom:8px">
+        <div>
+          <span class="chip"><i class="ph ph-check-circle" aria-hidden="true"></i>Registrado</span>
+          <h2 style="margin-top:14px;font-size:1.8rem">Constancia de tu hoja de reclamación</h2>
+        </div>
+        <div class="lr-meta">N.° <b id="cCodigo"></b><br><span id="cFecha"></span></div>
+      </div>
+      <p class="muted">Guarda esta constancia. Te responderemos al correo que indicaste en un plazo máximo de 15 días hábiles.</p>
+      <dl id="cDatos"></dl>
+      <div class="provider no-print-bg">
+        <div><small>Proveedor</small><span data-c="razonSocial"></span></div>
+        <div><small>RUC</small><span data-c="ruc"></span></div>
+        <div><small>Contacto</small><span data-c="email"></span></div>
+      </div>
+      <div class="hero-ctas no-print" style="margin-top:24px">
+        <button type="button" class="btn btn-primary" onclick="window.print()"><i class="ph ph-download-simple" aria-hidden="true"></i>Descargar o imprimir</button>
+        <a class="btn btn-ghost" id="cMail" href="#"><i class="ph ph-envelope-simple" aria-hidden="true"></i>Enviarme una copia por correo</a>
+      </div>
+      <p class="note no-print" id="cWarn" style="margin-top:16px"></p>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer style="padding-bottom:48px">
+  <div class="wrap"><p><span data-c="razonSocial"></span> · RUC <span data-c="ruc"></span> · <span data-c="email"></span></p></div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>var QR_DATA="";</script>
+<script>
+/* ============================================================
+   CONFIGURACIÓN: edita SOLO este archivo antes de publicar.
+   ============================================================ */
+window.DI_CONFIG = {
+  // WhatsApp donde recibes los pedidos (formato 51 + número, sin espacios)
+  whatsapp: "51972252298",
+
+  // Número de Yape / Plin que se muestra y se copia
+  yapeNumero: "972 252 298",
+  yapeTitular: "Nicolas Fernando Aguilar Escalante",
+
+  // QR: va incrustado abajo en la constante QR_DATA (no necesita archivo aparte)
+  qrImagen: QR_DATA,
+
+  precio: "S/ 14.30",
+
+  // Sé honesto con el "en minutos": muestra tu horario real
+  horario: "Lunes a sábado, de 9:00 a. m. a 9:00 p. m.",
+
+  // Datos obligatorios del Libro de Reclamaciones
+  negocio: {
+    nombreComercial: "Deuda Inteligente",
+    razonSocial: "Nicolas Fernando Aguilar Escalante",
+    ruc: "10471992491",
+    direccion: "Calle Batalla de San Juan 794, Urb. Chacarilla del Estanque, Santiago de Surco, Lima",
+    email: "nico19ae@gmail.com"
+  }
+};
+
+</script>
+<script>
+(function () {
+  var C = window.DI_CONFIG || {};
+  var N = C.negocio || {};
+  var values = {
+    precio: C.precio, yapeNumero: C.yapeNumero, yapeTitular: C.yapeTitular, horario: C.horario,
+    nombreComercial: N.nombreComercial, razonSocial: N.razonSocial, ruc: N.ruc, direccion: N.direccion, email: N.email
+  };
+
+  // 1. Rellenar textos desde config.js
+  document.querySelectorAll('[data-c]').forEach(function (el) {
+    var v = values[el.getAttribute('data-c')];
+    if (v) el.textContent = v;
+  });
+  document.querySelectorAll('[data-c-href="email"]').forEach(function (el) {
+    if (N.email) el.href = 'mailto:' + N.email;
+  });
+
+  // 2. Toast
+  var toastEl = document.getElementById('toast'), toastT;
+  window.diToast = function (msg) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+  };
+
+  // 3. Aparición al hacer scroll
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // 4. QR: imagen, descarga y aviso si aún no se sube
+  var qrImg = document.getElementById('qrImg');
+  if (qrImg) {
+    var qrDl = document.getElementById('qrDownload');
+    var showMissing = function () {
+      document.getElementById('qrBox').innerHTML =
+        '<div class="qr-missing">Aquí va tu QR.<br>Súbelo como<br>' + (C.qrImagen || 'assets/qr-yape.jpg') + '</div>';
+      if (qrDl) qrDl.style.display = 'none';
+    };
+    qrImg.addEventListener('error', showMissing);
+    if (C.qrImagen) {
+      qrImg.src = C.qrImagen;
+      if (qrDl) qrDl.href = C.qrImagen;
+    }
+    if (!C.qrImagen) showMissing();
+  }
+
+  // 5. Copiar número
+  var copyBtn = document.getElementById('copyBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var num = (C.yapeNumero || document.getElementById('yapeNum').textContent).replace(/\s/g, '');
+      var done = function () { window.diToast('Número copiado: ' + num); };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(num).then(done, fallback);
+      } else { fallback(); }
+      function fallback() {
+        var t = document.createElement('textarea');
+        t.value = num; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+        document.body.appendChild(t); t.select();
+        try { document.execCommand('copy'); done(); } catch (e) { window.diToast('Copia este número: ' + num); }
+        document.body.removeChild(t);
+      }
+    });
+  }
+
+  // 6. Formulario de pedido: valida, guarda en Netlify Forms y abre WhatsApp
+  var form = document.getElementById('orderForm');
+  if (form) {
+    var digits = function (s) { return (s || '').replace(/\D/g, ''); };
+    var dniInput = document.getElementById('fDni');
+    dniInput.addEventListener('input', function () { dniInput.value = digits(dniInput.value).slice(0, 8); });
+
+    var setInvalid = function (id, bad) {
+      var f = document.getElementById(id).closest('.field');
+      if (f) f.classList.toggle('invalid', bad);
+      return bad;
+    };
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nombre = document.getElementById('fNombre').value.trim();
+      var apellido = document.getElementById('fApellido').value.trim();
+      var dni = digits(dniInput.value);
+      var wsp = digits(document.getElementById('fWsp').value).replace(/^51(?=\d{9}$)/, '');
+      var ok = true;
+      if (setInvalid('fNombre', !nombre)) ok = false;
+      if (setInvalid('fApellido', !apellido)) ok = false;
+      if (setInvalid('fDni', !/^\d{8}$/.test(dni))) ok = false;
+      if (setInvalid('fWsp', !/^9\d{8}$/.test(wsp))) ok = false;
+      var consent = document.getElementById('fConsent').checked;
+      document.getElementById('consentBox').classList.toggle('invalid', !consent);
+      var msg = document.getElementById('formMsg');
+      if (!consent) ok = false;
+      if (!ok) {
+        msg.textContent = !consent && nombre && apellido ? 'Marca la autorización para continuar.' : 'Revisa los campos marcados.';
+        var first = form.querySelector('.invalid input, .consent.invalid input');
+        if (first) first.focus();
+        return;
+      }
+      msg.textContent = '';
+
+      var texto = 'Hola, ya pagué ' + (C.precio || 'S/ 14.30') + ' por mi reporte Sentinel + guía Deuda Inteligente.\n\n' +
+        'Nombre: ' + nombre + ' ' + apellido + '\n' +
+        'DNI: ' + dni + '\n' +
+        'WhatsApp: ' + wsp + '\n' +
+        'Autorizo el uso de mi DNI solo para consultar mi reporte.\n\n' +
+        'Adjunto la captura de mi pago:';
+      var url = 'https://wa.me/' + (C.whatsapp || '') + '?text=' + encodeURIComponent(texto);
+
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.lastChild.textContent = 'Abriendo WhatsApp...';
+
+      // Guarda una copia del pedido en Netlify Forms (no bloquea si falla)
+      var body = new URLSearchParams(new FormData(form)).toString();
+      var save = fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body, keepalive: true })
+        .catch(function () {});
+      var timeout = new Promise(function (r) { setTimeout(r, 1200); });
+      Promise.race([save, timeout]).then(function () {
+        window.location.href = url;
+        setTimeout(function () { btn.disabled = false; btn.lastChild.textContent = 'Enviar pedido por WhatsApp'; }, 2500);
+      });
+    });
+  }
+
+  // 7. Barra fija en móvil: visible después del hero y oculta en la sección de pago
+  var sticky = document.getElementById('stickyCta');
+  var hero = document.getElementById('inicio');
+  var pago = document.getElementById('pago');
+  if (sticky && hero && pago && 'IntersectionObserver' in window) {
+    var heroVisible = true, pagoVisible = false;
+    var update = function () { sticky.classList.toggle('show', !heroVisible && !pagoVisible); };
+    new IntersectionObserver(function (e) { heroVisible = e[0].isIntersecting; update(); }).observe(hero);
+    new IntersectionObserver(function (e) { pagoVisible = e[0].isIntersecting; update(); }, { threshold: 0.05 }).observe(pago);
+  }
+})();
+
+</script>
+<script>
+(function () {
+  var C = window.DI_CONFIG || {}, N = C.negocio || {};
+  var now = new Date();
+  var pad = function (n) { return String(n).padStart(2, '0'); };
+  var fecha = pad(now.getDate()) + '/' + pad(now.getMonth() + 1) + '/' + now.getFullYear() + ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes());
+  // Código único: año + mes + día + hora + minuto + segundo + 3 caracteres aleatorios
+  var codigo = 'LR-' + now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + '-' +
+    pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds()) + '-' +
+    Math.random().toString(36).slice(2, 5).toUpperCase();
+  document.getElementById('lrFecha').textContent = fecha;
+  document.getElementById('lrFechaInput').value = fecha;
+  document.getElementById('lrCodigo').value = codigo;
+
+  var menor = document.getElementById('lMenor'), padreWrap = document.getElementById('lPadreWrap');
+  menor.addEventListener('change', function () { padreWrap.hidden = !menor.checked; });
+
+  var form = document.getElementById('lrForm');
+  var req = ['lNombres', 'lApellidos', 'lDoc', 'lDomicilio', 'lTelefono', 'lEmail', 'lDetalle', 'lPedido'];
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var ok = true;
+    req.forEach(function (id) {
+      var el = document.getElementById(id);
+      var bad = !el.value.trim() || (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+      el.closest('.field').classList.toggle('invalid', bad);
+      if (bad) ok = false;
+    });
+    var padre = document.getElementById('lPadre');
+    var padreBad = menor.checked && !padre.value.trim();
+    padreWrap.classList.toggle('invalid', padreBad);
+    if (padreBad) ok = false;
+
+    var msg = document.getElementById('lrMsg');
+    if (!ok) {
+      msg.textContent = 'Revisa los campos marcados.';
+      var first = form.querySelector('.invalid input, .invalid textarea');
+      if (first) first.focus();
+      return;
+    }
+    msg.textContent = '';
+    var btn = document.getElementById('lrSubmit');
+    btn.disabled = true; btn.textContent = 'Enviando...';
+
+    var fd = new FormData(form);
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(fd).toString() })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); showConstancia(fd, true); })
+      .catch(function () { showConstancia(fd, false); });
+  });
+
+  function showConstancia(fd, saved) {
+    var labels = [
+      ['Tipo', fd.get('tipo_reclamo')],
+      ['Consumidor', fd.get('nombres') + ' ' + fd.get('apellidos')],
+      ['Documento', fd.get('tipo_documento') + ' ' + fd.get('numero_documento')],
+      ['Domicilio', fd.get('domicilio')],
+      ['Teléfono', fd.get('telefono')],
+      ['Correo', fd.get('email')],
+      ['Bien contratado', fd.get('tipo_bien') + ': ' + fd.get('descripcion_bien')],
+      ['Monto reclamado', fd.get('monto_reclamado') ? 'S/ ' + fd.get('monto_reclamado') : '-'],
+      ['Detalle', fd.get('detalle')],
+      ['Pedido', fd.get('pedido')]
+    ];
+    if (fd.get('es_menor_de_edad')) labels.splice(2, 0, ['Padre, madre o apoderado', fd.get('padre_madre_apoderado')]);
+    var dl = document.getElementById('cDatos');
+    dl.innerHTML = '';
+    labels.forEach(function (p) {
+      var dt = document.createElement('dt'); dt.textContent = p[0];
+      var dd = document.createElement('dd'); dd.textContent = p[1] || '-';
+      dl.appendChild(dt); dl.appendChild(dd);
+    });
+    document.getElementById('cCodigo').textContent = codigo;
+    document.getElementById('cFecha').textContent = fecha;
+
+    var resumen = 'Hoja de reclamación N.° ' + codigo + '\nFecha: ' + fecha + '\n\n' +
+      labels.map(function (p) { return p[0] + ': ' + (p[1] || '-'); }).join('\n') +
+      '\n\nProveedor: ' + (N.razonSocial || '') + ' - RUC ' + (N.ruc || '');
+    document.getElementById('cMail').href = 'mailto:' + encodeURIComponent(fd.get('email')) +
+      '?cc=' + encodeURIComponent(N.email || '') +
+      '&subject=' + encodeURIComponent('Constancia de reclamo ' + codigo) +
+      '&body=' + encodeURIComponent(resumen);
+
+    document.getElementById('cWarn').textContent = saved ? '' :
+      'No pudimos registrar tu hoja automáticamente. Usa "Enviarme una copia por correo" para que nos llegue también a nosotros.';
+    document.getElementById('lrCard').style.display = 'none';
+    var c = document.getElementById('constancia');
+    c.classList.add('show');
+    window.scrollTo(0, 0);
+    c.focus();
+  }
+})();
+</script>
+</body>
+</html>
